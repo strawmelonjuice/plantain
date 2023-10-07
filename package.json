@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron dist/plantain.js",
     "build": "npx tsc",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q electron dist/plantain.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js\""
   },
   "author": "Strawmelonjuice Mar",
   "license": "GPL-3.0",
@@ -17,6 +17,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "electron": "^26.3.0",
     "kivi-bananen": "^0.0.1-pre1"
   }
 }

@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron';
+import path from 'path';
 
 export default class Main {
     static mainWindow: Electron.BrowserWindow;
@@ -17,7 +18,7 @@ export default class Main {
     private static onReady() {
         Main.mainWindow = new Main.BrowserWindow({ width: 800, height: 600 });
         Main.mainWindow
-            .loadURL('file://' + __dirname + '/index.html');
+            .loadFile(path.join(__dirname, '../index.html'));
         Main.mainWindow.on('closed', Main.onClose);
     }
 
