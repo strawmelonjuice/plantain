@@ -1,0 +1,9 @@
+/* pixelify-sans-regular */
+@font-face {
+	font-family: Pixelify Sans;
+	font-style: normal;
+	font-weight: 400;
+	src: local("Pixelify Sans Regular"), local("PixelifySans-Regular"), url(pixelify-sans-regular.woff2) format("woff2"), url(pixelify-sans-regular.woff) format("woff");
+	font-display: auto;
+}
+

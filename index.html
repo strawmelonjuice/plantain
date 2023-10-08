@@ -1,1 +1,75 @@
-testing...
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Plaintain</title>
+		<link
+			rel="stylesheet"
+			href="assets/styles.css"
+			content-type="text/css"
+			charset="utf-8"
+		/>
+		<!-- <meta http-equiv="Content-Security-Policy" content="script-src file://* http://localhost:* https://cdn.jsdelivr.net/ 'unsafe-inline';" /> -->
+	</head>
+
+	<body>
+		<div id="innerbody">
+			<header id="titlebar">
+				<!-- <span id="window-menubutton"><img src="./icons/menu-open.svg" id="menubuttonlogo" class="icon-recolor-main"
+        data-status="closed"></span> -->
+				<div id="drag-region">
+					<div id="window-menubuttonplaceholder">
+						<span id="window-menubutton"
+							><img
+								src="./assets/svg/menu-open.svg"
+								id="menubuttonlogo"
+								class="icon-recolor-main"
+								data-menustatus="closed"
+						/></span>
+					</div>
+					<div id="window-title">
+						<span>Plantain 🍌</span>
+					</div>
+
+					<div id="window-controls">
+						<div class="button" id="min-button">
+							<img
+								class="icon icon-recolor-main"
+								src="./assets/svg/window-minimize.svg"
+								draggable="false"
+							/>
+						</div>
+						<div class="button" id="max-button">
+							<img
+								class="icon icon-recolor-main"
+								src="./assets/svg/window-maximize.svg"
+								draggable="false"
+							/>
+						</div>
+						<div class="button" id="restore-button">
+							<img
+								class="icon icon-recolor-main"
+								src="./assets/svg/window-restore.svg"
+								draggable="false"
+							/>
+						</div>
+						<div class="button" id="close-button">
+							<img
+								class="icon icon-recolor-main"
+								src="./assets/svg/window-close.svg"
+								draggable="false"
+							/>
+						</div>
+					</div>
+				</div>
+			</header>
+			<div id="navigation">
+				<a href="#/home/">Home</a>
+				<a href="javascript:window.ipcRender.send('plantain:gh')">GitHub</a>
+				<a href="javascript:window.location.reload(true);">Reload</a>
+			</div>
+			<main id="content-body">hoi.</main>
+			<script src="./assets/js/renderer.js"></script>
+		</div>
+	</body>
+</html>
