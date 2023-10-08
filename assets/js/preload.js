@@ -7,12 +7,13 @@ const ipc = {
 			"window:maxify",
 			"window:minify",
 			"window:close",
-			"plantain:gh"
+			"plantain:gh",
+			"plantain:cd"
 		],
 		receive: [],
 		sendReceive: [
 			"ping",
-			"GetProcessPort",
+			"getcd",
 			"getmaximizedbool",
 			"synchronous-message",
 			"ldcc:print",

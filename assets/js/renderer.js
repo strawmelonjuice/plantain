@@ -16,6 +16,14 @@ function CheckIfMaximized() {
     }
   });
 }
+setInterval(() => {
+  ipcRender.invoke("getcd").then((currentDir) => {
+    // console.log("currentDir:" + currentDir)
+  const disp= document.getElementById("kivi-cwd-disp");
+  if (disp !== null) {
+    disp.value = currentDir;
+  }
+})}, 500);
 function handleWindowControls() {
   document.getElementById("min-button").addEventListener("click", (event) => {
     window.ipcRender.send("window:minify");
@@ -54,7 +62,7 @@ document.body.setScaledFont = function (f) {
   this.style.fontSize = `${fs}%`;
   return this;
 };
-const ScaleFontsTo = 13.1;
+const ScaleFontsTo = 10.1;
 if (
   typeof localStorage.getItem("zoomdiffersetting") === "undefined" ||
   localStorage.getItem("zoomdiffersetting") == null
