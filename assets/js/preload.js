@@ -8,6 +8,7 @@ const ipc = {
 			"window:minify",
 			"window:close",
 			"plantain:gh",
+			"plantain:lic",
 			"plantain:cd"
 		],
 		receive: [],

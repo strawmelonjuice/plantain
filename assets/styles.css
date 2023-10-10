@@ -16,7 +16,7 @@
 }
 @media (prefers-color-scheme: dark) {
 	:root {
-		--body-backgroundcolor: #000000;
+		--body-backgroundcolor: #445d5e;
 		--main-textcolor: #ddffd7;
 		--title-bar-color: #252423;
 		--button-bg-color-1: #f8bea1;
@@ -28,7 +28,7 @@
 }
 @media (prefers-color-scheme: light) {
 	:root {
-    --body-backgroundcolor: rgb(235, 188, 200);
+    --body-backgroundcolor: #eafcf8;
 		--main-textcolor: #303a2e;
 		--title-bar-color: purple;
 		--button-bg-color-1: #3d3a0d;
@@ -312,6 +312,7 @@ button {
 	margin-right: auto;
 	border-radius: 0px 0px var(--window-border-radius-px)
 		var(--window-border-radius-px);
+	font-size: 0.8em;
 }
 
 #innerbody {
@@ -355,7 +356,7 @@ button {
   text-align: center;
   padding: .4em 1em;
   text-decoration: none;
-  font-size: 0.5em;
+  font-size: 0.8em;
 }
 #navigation a:hover {
   background-color: var(--button-bg-color-1);
@@ -364,5 +365,34 @@ button {
   background-color: var(--button-bg-color-2);
 }
 #navigation .icon {
+  display: none;
+} 
+#bnav {
+  position: fixed;
+  background-color: var(--theme-color);
+  overflow: hidden;
+  bottom: 0px;
+  min-width: 100VW;
+  height: 40px;
+  right: 0px;
+  z-index: 300;
+}
+#bnav a {
+	height: 100%;
+  float: right;
+  display: block;
+  color: var(--button-text-color);
+  text-align: center;
+  padding: .4em 1em;
+  text-decoration: none;
+  font-size: 1em;
+}
+#bnav a:hover {
+  background-color: var(--button-bg-color-1);
+}
+#bnav a.active {
+  background-color: var(--button-bg-color-2);
+}
+#bnav .icon {
   display: none;
 } 

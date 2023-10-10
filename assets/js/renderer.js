@@ -111,19 +111,28 @@ document
       menubutton.src = "./assets/svg/menu-close.svg";
       menubutton.dataset.menustatus = "opened";
     } else {
-      document.getElementById("navigation").style.display = "none";
-      document.getElementById("content-body").style.top = "";
-      document.getElementById("content-body").style.height = ""; menubutton.src =
-			"./assets/svg/menu-open.svg";
-      menubutton.dataset.menustatus = "closed";
+      closeMenu();
     }
   });
   function closeMenu() {
     setTimeout(() => {
       document.getElementById("navigation").style.display = "none";
-		  menubutton.src = "./assets/svg/menu-open.svg";
-		  menubutton.dataset.menustatus = "closed";
+      document.getElementById("content-body").style.top = "";
+      document.getElementById("content-body").style.height = ""; menubutton.src =
+      "./assets/svg/menu-open.svg";
+      menubutton.dataset.menustatus = "closed";
     }, 50);
   }
   closeMenu()
   document.getElementById("navigation").setAttribute("onclick","closeMenu()");
+  function showCredits() {
+    window.open("./assets/html/credits.html",'targetWindow',
+                                   `toolbar=no,
+                                    location=no,
+                                    status=no,
+                                    menubar=no,
+                                    scrollbars=yes,
+                                    resizable=no,
+                                    width=300,
+                                    height=300`)
+  }

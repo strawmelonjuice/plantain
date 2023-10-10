@@ -71,6 +71,9 @@ export default class Main {
       logger.info("GitHub page launched.")
       shell.openExternal('https://github.com/strawmelonjuice/plantain/')
     });
+    ipcMain.on("plantain:lic", () => {
+      shell.openPath(path.join(__dirname,"../LICENSE.TXT"));
+    });
     ipcMain.on("plantain:cd", async () => {
       dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }).then((picked) =>{
         console.trace(picked)
@@ -78,7 +81,7 @@ export default class Main {
           const folder: string = picked.filePaths[0];
               kiviinstance.chdir(path.join(folder));
               console.log(folder);
-              });
+              };
     }
     });
     ipcMain.handle("kivi:bananencall", (event, args) => {
