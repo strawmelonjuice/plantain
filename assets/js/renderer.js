@@ -126,13 +126,21 @@ document
   closeMenu()
   document.getElementById("navigation").setAttribute("onclick","closeMenu()");
   function showCredits() {
-    window.open("./assets/html/credits.html",'targetWindow',
+    window.open("/creds",'creditsWindow',
                                    `toolbar=no,
                                     location=no,
                                     status=no,
                                     menubar=no,
-                                    scrollbars=yes,
-                                    resizable=no,
+                                    menu=no,
+                                    scrollbars=no,
+                                    resizable=yes,
                                     width=300,
-                                    height=300`)
-  }
+                                    height=300`);
+  };
+
+  function showE (ElementId) {
+    document.getElementById(ElementId).style.display = "block";
+  };
+  function restoreED (ElementId) {
+    document.getElementById(ElementId).style.display = "";
+  };

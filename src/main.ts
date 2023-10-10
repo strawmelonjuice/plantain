@@ -3,6 +3,7 @@ import path from 'path';
 import { KiviBananen } from 'kivi-bananen';
 import { Logger, ILogObj } from "tslog";
 import os from 'os';
+import {spawn} from 'child_process';
 export default class Main {
   static mainWindow: Electron.BrowserWindow;
   static application: Electron.App;
@@ -12,9 +13,10 @@ export default class Main {
       Main.application.quit();
     }
   }
-  private function parseBool(bool) {
+  private parseBool(bool: string | boolean | number) {
   if (bool === "true" || bool === "1" || bool === true) return true;
-  else return 
+  else return false
+}
   private static onClose() {
     Main.mainWindow.destroy;
   }
@@ -32,18 +34,21 @@ export default class Main {
         devTools: true,
         nodeIntegration: true,
         contextIsolation: true,
-        preload: path.join(__dirname, "../assets/js/preload.js"),
+        preload: path.join(__dirname, "./preload.js"),
       },
     });
     Main.mainWindow
-      .loadFile(path.join(__dirname, '../index.html'));
+      // .loadFile(path.join(__dirname, '../index.html'));
+     .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>) {
-    let kiviinstance;
-    kiviinstance = new kivi(os.homedir())
+  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
+    let kiviinstance: KiviBananen;
+    logger.info("Starting Kivi instance!")
+    kiviinstance = new kivi(process.cwd());
     Main.BrowserWindow = browserWindow;
     Main.application = app;
+    Main.UIport = port;
     Main.application.on('window-all-closed', Main.onWindowAllClosed);
     Main.application.on('ready', Main.onReady);
 
@@ -68,8 +73,8 @@ export default class Main {
       Main.mainWindow.minimize();
     });
     ipcMain.on("plantain:gh", () => {
-      logger.info("GitHub page launched.")
-      shell.openExternal('https://github.com/strawmelonjuice/plantain/')
+      logger.info("GitHub page launched.");
+      shell.openExternal('https://github.com/strawmelonjuice/plantain/');
     });
     ipcMain.on("plantain:lic", () => {
       shell.openPath(path.join(__dirname,"../LICENSE.TXT"));
@@ -84,6 +89,18 @@ export default class Main {
               };
     }
     });
+    ipcMain.on("plantain:forcerestart", async () => {
+      logger.info("forcerestarting pid: " + process.pid);
+      setTimeout(function () {
+        process.on("exit", function () {
+          require("child_process").spawn(process.argv.shift(), process.argv, {
+            cwd: process.cwd(),
+            detached : true,
+            stdio: "inherit"
+        });
+    });
+    process.exit();
+    });
     ipcMain.handle("kivi:bananencall", (event, args) => {
       switch (args[1]) {
         case "add":
@@ -96,4 +113,3 @@ export default class Main {
     });
   }
 }
-

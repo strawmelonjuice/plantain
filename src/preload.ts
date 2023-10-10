@@ -9,7 +9,8 @@ const ipc = {
 			"window:close",
 			"plantain:gh",
 			"plantain:lic",
-			"plantain:cd"
+			"plantain:cd",
+			"plantain:forcerestart"
 		],
 		receive: [],
 		sendReceive: [
