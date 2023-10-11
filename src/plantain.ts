@@ -3,7 +3,7 @@ import { app, BrowserWindow } from 'electron';
 import Main from './main';
 import fs from 'fs';
 import { Logger, ILogObj } from "tslog";
-import { default as UImainHTML } from './ui/main';
+import { default as UImainHTML } from './ui/home';
 import { default as UIcredsHTML } from './ui/creds';
 import { default as UIstyling } from './ui/css';
 const log: Logger<ILogObj> = new Logger();

@@ -3,7 +3,20 @@ import path from 'path';
 import { KiviBananen } from 'kivi-bananen';
 import { Logger, ILogObj } from "tslog";
 import os from 'os';
-import {spawn} from 'child_process';
+import { spawn } from 'child_process';
+import { parse as parseJsonC } from "comment-json";
+import fs from "fs";
+import handlebars from "handlebars";
+import MarkdownIt from "markdown-it";
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true
+});
+function parseBool(bool: string | boolean | number) {
+  if (bool === "true" || bool === "1" || bool === true) return true
+  else return false
+}
 export default class Main {
   static mainWindow: Electron.BrowserWindow;
   static application: Electron.App;
@@ -13,10 +26,6 @@ export default class Main {
       Main.application.quit();
     }
   }
-  private parseBool(bool: string | boolean | number) {
-  if (bool === "true" || bool === "1" || bool === true) return true;
-  else return false
-}
   private static onClose() {
     Main.mainWindow.destroy;
   }
@@ -39,10 +48,10 @@ export default class Main {
     });
     Main.mainWindow
       // .loadFile(path.join(__dirname, '../index.html'));
-     .loadURL(`http://localhost:${Main.UIport}/main`);
+      .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
+  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: KiviBananen, logger: Logger<ILogObj>, port: number) {
     let kiviinstance: KiviBananen;
     logger.info("Starting Kivi instance!")
     kiviinstance = new kivi(process.cwd());
@@ -58,6 +67,33 @@ export default class Main {
     });
     ipcMain.handle("getcd", () => {
       return kiviinstance.cwd;
+    });
+    function BananenConfig() {
+      if (!fs.existsSync(path.join(kiviinstance.cwd, "/bananen.json"))) return undefined;
+      return parseJsonC(fs.readFileSync(path.join(kiviinstance.cwd, "/bananen.json"), { encoding: "utf8", flag: "r" }
+      ).toString());
+    }
+    ipcMain.handle("getbananenconfig", () => {
+      return BananenConfig();
+    });
+    ipcMain.handle("getmd", (event, args) => {
+      const pkgjso = parseJsonC(fs.readFileSync(path.join(__dirname, "/../package.json"), { encoding: "utf8", flag: "r" }
+      ).toString());
+      const vars = {
+        plantain: {
+          version: pkgjso.version
+        },
+        kivi: {
+          version: kiviinstance.info.versions.kivi
+        },
+        bananen: {
+          version: kiviinstance.info.versions.bananen
+        }
+      }
+      let filepath = path.join(__dirname, "/../", args[0]);
+      if (parseBool(args[1]) == false) filepath = path.normalize(args[0]);
+      if (!fs.existsSync(filepath)) return "...";
+      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars);
     });
     ipcMain.on("window:maxify", () => {
       Main.mainWindow.maximize();
@@ -77,37 +113,46 @@ export default class Main {
       shell.openExternal('https://github.com/strawmelonjuice/plantain/');
     });
     ipcMain.on("plantain:lic", () => {
-      shell.openPath(path.join(__dirname,"../LICENSE.TXT"));
+      shell.openPath(path.join(__dirname, "../LICENSE.TXT"));
     });
     ipcMain.on("plantain:cd", async () => {
-      dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }).then((picked) =>{
+      dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }).then((picked) => {
         console.trace(picked)
         if (picked.canceled == false) {
           const folder: string = picked.filePaths[0];
-              kiviinstance.chdir(path.join(folder));
-              console.log(folder);
-              };
-    }
+          kiviinstance.chdir(path.join(folder));
+          console.log(folder);
+        };
+      })
     });
-    
+
     ipcMain.on("plantain:forcerestart", async () => {
       logger.info("forcerestarting pid: " + process.pid);
       setTimeout(function () {
         process.on("exit", function () {
           require("child_process").spawn(process.argv.shift(), process.argv, {
             cwd: process.cwd(),
-            detached : true,
+            detached: true,
             stdio: "inherit"
+          });
         });
+        process.exit();
+      });
     });
-    process.exit();
-    });
-    ipcMain.handle("kivi:bananencall", (event, args) => {
-      switch (args[1]) {
+    ipcMain.handle("kivicall", (event, args) => {
+      switch (args[0]) {
         case "add":
-          kivi.add(1, parseBool(args[2]), `${args[3]}`);
+          kiviinstance.add(args[1], parseBool(args[2]), `${args[3]}`);
           break;
-      
+        case "regen":
+          logger.info(`Regenerating '${path.join(kiviinstance.cwd, BananenConfig().config.changelogfile)}...`);
+          kiviinstance.regen();
+          break;
+        case "init":
+          logger.info(`Initialising '${path.join(kiviinstance.cwd)}...`);
+          kiviinstance.init();
+          kiviinstance.regen();
+          break;
         default:
           break;
       }

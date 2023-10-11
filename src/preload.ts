@@ -10,15 +10,17 @@ const ipc = {
 			"plantain:gh",
 			"plantain:lic",
 			"plantain:cd",
-			"plantain:forcerestart"
+			"plantain:forcerestart",
 		],
 		receive: [],
 		sendReceive: [
 			"ping",
 			"getcd",
 			"getmaximizedbool",
+			"kivicall",
 			"synchronous-message",
-			"ldcc:print",
+			"getmd",
+			"getbananenconfig"
 		],
 	},
 };

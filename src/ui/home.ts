@@ -6,9 +6,9 @@ export default function HTML(css: string) {
 		css: css,
 	}
 	return handlebars.compile(
-		fs.readFileSync(
-			path.join(__dirname, "/../../assets/handlebars/creds.handlebars"),
-			{ encoding: "utf8", flag: "r" }
-		))(vars);
-
+    fs.readFileSync(
+      path.join(__dirname, "/../../assets/handlebars/main.handlebars"),
+      { encoding: "utf8", flag: "r" }
+	  ))(vars);
+	
 }

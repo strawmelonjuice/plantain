@@ -144,3 +144,53 @@ document
   function restoreED (ElementId) {
     document.getElementById(ElementId).style.display = "";
   };
+  function switchToTab(evt, tab) {
+  let i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tab).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+if (document.getElementById("ReadBackSpan") !== null) {
+  setInterval(() => {
+    ipcRender.invoke("getcd").then((currentDir) => {
+    ipcRender.invoke("getbananenconfig").then((conf) => {
+      if (conf ==undefined) {
+        document.getElementById(
+          "ReadBackSpan"
+        ).innerHTML = `<button class="regen-init-button" onclick="window.ipcRender.invoke('kivicall', ['init'])">Initialise</button>This directory does not have a BananenConfig (yet)\n Initialise it to view a clean Bananen changelog here!`;
+      } else {
+      ipcRender
+        .invoke("getmd", [currentDir + "/" + conf.config.changelogfile, false])
+        .then((markdownasHTML) => {
+          const buttons = `
+          <button class="regen-init-button" onclick="window.ipcRender.invoke('kivicall', ['regen'])">Regenerate</button>`;
+          if (markdownasHTML == undefined) {} else {
+          document.getElementById("ReadBackSpan").innerHTML = buttons+markdownasHTML;
+        }});}
+      })})
+      }, 800);
+}
+
+function changeTypeForms(evt, additionType) {
+  var i, addercontent, changetypeswitchers;
+  addercontent = document.getElementsByClassName("addercontent");
+  for (i = 0; i < addercontent.length; i++) {
+    addercontent[i].style.display = "none";
+  }
+  changetypeswitchers = document.getElementsByClassName("changetypeswitchers");
+  for (i = 0; i < changetypeswitchers.length; i++) {
+    changetypeswitchers[i].className = changetypeswitchers[i].className.replace(
+      " active",
+      ""
+    );
+  }
+  document.getElementById(additionType).style.display = "block";
+  evt.currentTarget.className += " active";
+}
