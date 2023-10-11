@@ -1,16 +1,13 @@
-function HTML() {
+export default function HTML(css: string) {
     return (`
   	<!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
 		<title>Plaintain</title>
-		<link
-			rel="stylesheet"
-			href="assets/styles.css"
-			content-type="text/css"
-			charset="utf-8"
-		/>
+		<style>
+		${css}
+		</style>
 		<!-- <meta http-equiv="Content-Security-Policy" content="script-src file://* http://localhost:* https://cdn.jsdelivr.net/ 'unsafe-inline';" /> -->
 	</head>
 
@@ -131,4 +128,3 @@ function HTML() {
 	</body>
 </html>
 `)}; 
-export default HTML();

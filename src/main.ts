@@ -89,6 +89,7 @@ export default class Main {
               };
     }
     });
+    
     ipcMain.on("plantain:forcerestart", async () => {
       logger.info("forcerestarting pid: " + process.pid);
       setTimeout(function () {

@@ -1,4 +1,4 @@
-function CSS() {
+export default function CSS(page: string) {
     return (`
     @import url("/assets/fonts/notocoloremoji/notocoloremoji.css");
 @import url("/assets/fonts/ubuntumono/ubuntumono.css");
@@ -428,4 +428,3 @@ button {
 }
 `)
 };
-export default CSS();
