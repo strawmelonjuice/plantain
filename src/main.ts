@@ -4,7 +4,8 @@ import { KiviBananen } from 'kivi-bananen';
 import { Logger, ILogObj } from "tslog";
 import os from 'os';
 import { spawn } from 'child_process';
-import { parse as parseJsonC } from "comment-json";
+// import { parse as parseJsonC } from "comment-json";
+const  parseJsonC= JSON.parse
 import fs from "fs";
 import handlebars from "handlebars";
 import MarkdownIt from "markdown-it";
@@ -20,7 +21,7 @@ function parseBool(bool: string | boolean | number) {
 export default class Main {
   static mainWindow: Electron.BrowserWindow;
   static application: Electron.App;
-  static BrowserWindow: BrowserWindow;
+  static BrowserWindow: Electron.BrowserWindow;
   private static onWindowAllClosed() {
     if (process.platform !== 'darwin') {
       Main.application.quit();
@@ -51,17 +52,21 @@ export default class Main {
       .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: KiviBananen, logger: Logger<ILogObj>, port: number) {
+  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
     let kiviinstance: KiviBananen;
     logger.info("Starting Kivi instance!")
     kiviinstance = new kivi(process.cwd());
+    
     Main.BrowserWindow = browserWindow;
     Main.application = app;
     Main.UIport = port;
     Main.application.on('window-all-closed', Main.onWindowAllClosed);
+    kiviinstance.do(() => {
+      console.log("Kivi is ready.");
+    });
     Main.application.on('ready', Main.onReady);
-
-
+    
+    
     ipcMain.handle("getmaximizedbool", () => {
       return Main.mainWindow.isMaximized();
     });
@@ -75,6 +80,9 @@ export default class Main {
     }
     ipcMain.handle("getbananenconfig", () => {
       return BananenConfig();
+    });
+    ipcMain.handle("openurl", (event, url) => {
+      shell.openExternal(url);
     });
     ipcMain.handle("getmd", (event, args) => {
       const pkgjso = parseJsonC(fs.readFileSync(path.join(__dirname, "/../package.json"), { encoding: "utf8", flag: "r" }
