@@ -1,5 +1,5 @@
 console.clear();
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import Main from './main';
 import fs from 'fs';
 import { Logger, ILogObj } from "tslog";
@@ -15,6 +15,13 @@ serv.get('/creds', (req: any, res: { send: (arg0: string) => void; }) => {
 	res.send(UIcredsHTML(UIstyling("creds")))});
 serv.get('/main', (req: any, res: { send: (arg0: string) => void; }) => {
 	res.send(UImainHTML(UIstyling("main")))});
+serv.get("/webopen", async (req, res) => {
+	if (typeof req.query.uri == "string") {
+	console.log("WebOpen: " + req.query.uri);
+	shell.openExternal(req.query.uri);
+	}
+	// res.redirect("back");
+});
 const UIserv = serv.listen(0, () => {
 	console.log(`UI hosted on ${UIserv.address().port}`);
 	Main.main(app, BrowserWindow, KiviBananen, log, UIserv.address().port);

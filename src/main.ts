@@ -5,7 +5,7 @@ import { Logger, ILogObj } from "tslog";
 import os from 'os';
 import { spawn } from 'child_process';
 // import { parse as parseJsonC } from "comment-json";
-const  parseJsonC= JSON.parse
+const parseJsonC = JSON.parse
 import fs from "fs";
 import handlebars from "handlebars";
 import MarkdownIt from "markdown-it";
@@ -53,21 +53,24 @@ export default class Main {
       .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: Electron.BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
+  static main(app: Electron.App, browserWindow: any, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number | null) {
     let kiviinstance: KiviBananen;
     logger.info("Starting Kivi instance!")
     kiviinstance = new kivi(process.cwd());
-    
+
     Main.BrowserWindow = browserWindow;
     Main.application = app;
-    Main.UIport = port;
+    if (port !== null)
+      Main.UIport = port;
+    else
+      Main.UIport = 3000;
     Main.application.on('window-all-closed', Main.onWindowAllClosed);
     kiviinstance.do(() => {
       console.log("Kivi is ready.");
     });
     Main.application.on('ready', Main.onReady);
-    
-    
+
+
     ipcMain.handle("getmaximizedbool", () => {
       return Main.mainWindow.isMaximized();
     });
@@ -75,7 +78,7 @@ export default class Main {
       return kiviinstance.cwd;
     });
     function BananenConfig() {
-      if (!fs.existsSync(path.join(kiviinstance.cwd, "/bananen.json"))) return undefined;
+      if (!fs.existsSync(path.join(kiviinstance.info.cwd, "/bananen.json"))) return undefined;
       return parseJsonC(fs.readFileSync(path.join(kiviinstance.cwd, "/bananen.json"), { encoding: "utf8", flag: "r" }
       ).toString());
     }
@@ -102,7 +105,7 @@ export default class Main {
       let filepath = path.join(__dirname, "/../", args[0]);
       if (parseBool(args[1]) == false) filepath = path.normalize(args[0]);
       if (!fs.existsSync(filepath)) return "...";
-      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars);
+      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars).replace("https://","/webopen?uri=https://");
     });
     ipcMain.on("window:maxify", () => {
       Main.mainWindow.maximize();
@@ -116,10 +119,6 @@ export default class Main {
     });
     ipcMain.on("window:minify", () => {
       Main.mainWindow.minimize();
-    });
-    ipcMain.on("plantain:gh", () => {
-      logger.info("GitHub page launched.");
-      shell.openExternal('https://github.com/strawmelonjuice/plantain/');
     });
     ipcMain.on("plantain:lic", () => {
       shell.openPath(path.join(__dirname, "../LICENSE.TXT"));
@@ -154,7 +153,7 @@ export default class Main {
           kiviinstance.add(args[1], parseBool(args[2]), `${args[3]}`);
           break;
         case "regen":
-          logger.info(`Regenerating '${path.join(kiviinstance.cwd, BananenConfig().config.changelogfile)}...`);
+          logger.info(`Regenerating '${path.join(kiviinstance.cwd, BananenConfig().config.changelogfile)}'...`);
           kiviinstance.regen();
           break;
         case "init":

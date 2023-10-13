@@ -7,7 +7,6 @@ const ipc = {
 			"window:maxify",
 			"window:minify",
 			"window:close",
-			"plantain:gh",
 			"plantain:lic",
 			"plantain:cd",
 			"plantain:forcerestart",
