@@ -30,7 +30,7 @@
 }
 @media (prefers-color-scheme: light) {
 	:root {
-		--body-backgroundcolor: #eafcf8;
+		--body-backgroundcolor: #c5dfd9;
 		--main-textcolor: #303a2e;
 		--title-bar-color: purple;
 		--button-bg-color-1: #3d3a0d;
