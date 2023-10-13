@@ -22,6 +22,7 @@ export default class Main {
   static mainWindow: Electron.BrowserWindow;
   static application: Electron.App;
   static BrowserWindow: Electron.BrowserWindow;
+  static UIport: number;
   private static onWindowAllClosed() {
     if (process.platform !== 'darwin') {
       Main.application.quit();
@@ -52,7 +53,7 @@ export default class Main {
       .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: typeof BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
+  static main(app: Electron.App, browserWindow: Electron.BrowserWindow, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number) {
     let kiviinstance: KiviBananen;
     logger.info("Starting Kivi instance!")
     kiviinstance = new kivi(process.cwd());
