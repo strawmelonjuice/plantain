@@ -6,7 +6,7 @@ Kivi version: {{kivi.version}}
 Bananen version: {{bananen.version}}
 ```
 
-Both by MLC Bloeiman (@strawmelonjuice)
+Both by [MLC Bloeiman](https://strawmelonjuice.com/) ([@strawmelonjuice](https://github.com/strawmelonjuice/))
 
 ## License
 <BLOCKQUOTE>

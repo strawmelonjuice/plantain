@@ -5,6 +5,7 @@ import { Logger, ILogObj } from "tslog";
 import os from 'os';
 import { spawn } from 'child_process';
 // import { parse as parseJsonC } from "comment-json";
+// Not neccessary and tbh those objects are pretty annoying
 const parseJsonC = JSON.parse
 import fs from "fs";
 import handlebars from "handlebars";

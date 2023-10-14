@@ -1,0 +1,11 @@
+:root {
+    font-size: 11px;
+}
+
+#content-body {
+    top: 0px;
+    bottom: 60px;
+}
+#innerbody {
+    border-radius: 0px;
+}
