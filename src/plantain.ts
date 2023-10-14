@@ -9,8 +9,7 @@ import { KiviBananen } from 'kivi-bananen';
 import express from 'express';
 const serv = express();
 serv.use('/assets', express.static('assets'));
-serv.get('/creds', (req: any, res: { send: (arg0: string) => void; }) => {
-	res.send(UIcredsHTML(UIstyling("creds")))});
+serv.get('/creds', (req: any, res: { send: (arg0: string) => void; }) => {res.send(UIcredsHTML(UIstyling("creds")))});
 serv.get('/main', (req: any, res: { send: (arg0: string) => void; }) => {
 	res.send(UImainHTML(UIstyling("main")))});
 serv.get("/webopen", async (req, res) => {
