@@ -46,11 +46,12 @@
   outline: none;
   cursor: pointer;
   transition: background-color 2s;
+  background-color: var(--button-bg-color-3);
   font-size: 1em;
 }
 
 .tab button.active {
-  background-color: var(--button-bg-color-3);
+  background-color: var(--button-bg-color-1);
 }
 .changetypes button {
   background-color: var(--button-bg-color-2);
