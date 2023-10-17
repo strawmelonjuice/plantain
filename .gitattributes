@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# CSS is no code guys cmon
+*.css -linguist-detectable
