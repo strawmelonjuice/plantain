@@ -1,5 +1,5 @@
-const { contextBridge, ipcRenderer } = require("electron");
-const fs = require("fs");
+import { contextBridge, ipcRenderer } from "electron";
+import fs from "fs";
 const ipc = {
 	render: {
 		send: [
