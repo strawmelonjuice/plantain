@@ -66,9 +66,6 @@ export default class Main {
     else
       Main.UIport = 3000;
     Main.application.on('window-all-closed', Main.onWindowAllClosed);
-    kiviinstance.do(() => {
-      console.log("Kivi is ready.");
-    });
     Main.application.on('ready', Main.onReady);
 
 
@@ -76,11 +73,11 @@ export default class Main {
       return Main.mainWindow.isMaximized();
     });
     ipcMain.handle("getcd", () => {
-      return kiviinstance.cwd;
+      return kiviinstance.info.cwd;
     });
     function BananenConfig() {
       if (!fs.existsSync(path.join(kiviinstance.info.cwd, "/bananen.json"))) return undefined;
-      return parseJsonC(fs.readFileSync(path.join(kiviinstance.cwd, "/bananen.json"), { encoding: "utf8", flag: "r" }
+      return parseJsonC(fs.readFileSync(path.join(kiviinstance.info.cwd, "/bananen.json"), { encoding: "utf8", flag: "r" }
       ).toString());
     }
     ipcMain.handle("getbananenconfig", () => {
@@ -154,11 +151,11 @@ export default class Main {
           kiviinstance.add(args[1], parseBool(args[2]), `${args[3]}`);
           break;
         case "regen":
-          logger.info(`Regenerating '${path.join(kiviinstance.cwd, BananenConfig().config.changelogfile)}'...`);
-          kiviinstance.regen();
+          logger.info(`Regenerating '${path.join(kiviinstance.info.cwd, BananenConfig().config.changelogfile)}'...`);
+          if (kiviinstance.regen().startsWith("0")) console.log("OK.");
           break;
         case "init":
-          logger.info(`Initialising '${path.join(kiviinstance.cwd)}...`);
+          logger.info(`Initialising '${path.join(kiviinstance.info.cwd)}...`);
           kiviinstance.init();
           kiviinstance.regen();
           break;
