@@ -1,0 +1,2 @@
+- [ ] Add option for force-initialisation (overwrite)
+- [ ] Add BananenConfigurator

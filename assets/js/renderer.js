@@ -215,6 +215,9 @@ function collectBananenQuery(type) {
   window.location.reload(false);
   }
 }
+
+
+
 function bananenDubq() {
   let vername = document.getElementById("rel-relname").value;
   if (vername == "") { window.alert("Release name cannot be empty.") } else {
@@ -222,3 +225,16 @@ function bananenDubq() {
     window.location.reload(false);
   }
 }
+
+ipcRender.invoke("getbananenversion").then((ver) => {
+  if (ver === "none") {
+    window.alert("Bananen not available, not installed or not found on path. Please install Bananen first.");
+    window.location.href = "/webopen?uri=https://strawmelonjuice.com/?p=projects/bananen/get";
+    setTimeout(() => {
+      window.ipcRender.send("window:close");
+    }, 3000);
+    console.info("[Kivi] Bananen not found.")
+  } else {
+    console.info("[Kivi] Connected to Bananen v" + ver)
+  }
+})

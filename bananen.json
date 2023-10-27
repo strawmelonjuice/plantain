@@ -36,6 +36,11 @@
         "contents": "(Written with Plantain) Made a first usable Plantain!",
         "type": 2,
         "breaking": false
+      },
+      {
+        "contents": "Plantain now tells users to install Bananen if not found.",
+        "type": 2,
+        "breaking": false
       }
     ],
     "released": []

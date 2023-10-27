@@ -4,7 +4,8 @@
 
 ## Unreleased changes
             
--  **<span style="color: #0033cc">Update</span>**: (Written with Plantain) Made a first usable Plantain!
+-  **<span style="color: #0033cc">Update</span>**: Plantain now tells users to install Bananen if not found.
+-  **<span style="color: #0033cc">Update</span>**: (Written with Plantain) Made a first usable Plantain!
 
 
 ## Releases

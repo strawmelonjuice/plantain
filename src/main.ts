@@ -82,6 +82,9 @@ export default class Main {
     ipcMain.handle("getbananenconfig", () => {
       return BananenConfig();
     });
+    ipcMain.handle("getbananenversion", () => {
+      return kiviinstance.info.versions.bananen;
+    });
     ipcMain.handle("openurl", (event, url) => {
       shell.openExternal(url);
     });

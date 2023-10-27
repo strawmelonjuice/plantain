@@ -19,7 +19,8 @@ const ipc = {
 			"kivicall",
 			"synchronous-message",
 			"getmd",
-			"getbananenconfig"
+			"getbananenconfig",
+			"getbananenversion"
 		],
 	},
 };
