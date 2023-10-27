@@ -3,8 +3,7 @@ import path from 'path';
 import { KiviBananen } from 'kivi-bananen';
 import { Logger, ILogObj } from "tslog";
 import os from 'os';
-import { spawn } from 'child_process';
-// import { parse as parseJsonC } from "comment-json";
+// import parse as parseJsonC } from "comment-json";
 // Not neccessary and tbh those objects are pretty annoying
 const parseJsonC = JSON.parse
 import fs from "fs";
@@ -101,7 +100,7 @@ export default class Main {
         }
       }
       let filepath = path.join(__dirname, "/../", args[0]);
-      if (parseBool(args[1]) == false) filepath = path.normalize(args[0]);
+      if (parseBool(args[1]) === false) filepath = path.normalize(args[0]);
       if (!fs.existsSync(filepath)) return "...";
       return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars).replace("https://","/webopen?uri=https://");
     });
