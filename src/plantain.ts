@@ -7,13 +7,14 @@ import { default as UIstyling } from './ui/css';
 const log: Logger<ILogObj> = new Logger();
 import { KiviBananen } from 'kivi-bananen';
 import express from 'express';
+import path from 'path';
 const serv = express();
-serv.use('/assets', express.static('assets'));
+serv.use('/assets', express.static(path.join(__dirname, '../assets/')));
 serv.get('/creds', (req: any, res: { send: (arg0: string) => void; }) => {res.send(UIcredsHTML(UIstyling("creds")))});
 serv.get('/main', (req: any, res: { send: (arg0: string) => void; }) => {
 	res.send(UImainHTML(UIstyling("main")))});
 serv.get("/webopen", async (req, res) => {
-	if (typeof req.query.uri == "string") {
+	if (typeof req.query.uri === "string") {
 	log.log(0,"WebOpen", req.query.uri);
 	shell.openExternal(req.query.uri);
 	}

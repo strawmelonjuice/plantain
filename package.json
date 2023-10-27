@@ -3,12 +3,14 @@
   "productName": "Plantain: Bananen GUI",
   "description": "A graphical user interface around Bananen, built on Kivi",
   "version": "0.2.1",
+  "main": "dist/plantain.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron dist/plantain.js",
     "build": "npx tsc",
     "devj": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js,css,html,handlebars\"",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js\"",
+    "pack": "electron-packager --platform=all --arch=x64 ./ Plantain --out ./dist/release && electron-packager --platform=all --arch=arm64 ./ Plantain --out ./dist/release"
   },
   "author": "Strawmelonjuice Mar",
   "license": "GPL-3.0",
@@ -18,11 +20,12 @@
     "@types/markdown-it": "^13.0.2",
     "@types/node": "^20.7.1",
     "concurrently": "^8.2.1",
+    "electron": "^27.0.2",
+    "electron-packager": "^17.1.2",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "electron": "^27.0.0",
     "express": "^4.18.2",
     "handlebars": "^4.7.8",
     "kivi-bananen": "^2.0.1-alpha",

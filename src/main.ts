@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell, dialog } from "electron";
+import { app, BrowserWindow, ipcMain, shell, dialog, Tray, nativeImage } from "electron";
 import path from 'path';
 import { KiviBananen } from 'kivi-bananen';
 import { Logger, ILogObj } from "tslog";
@@ -38,7 +38,7 @@ export default class Main {
       height: 550,
       minWidth: 400,
       minHeight: 550,
-      icon: path.join(__dirname, "/assets/icons/plantain-bananen.png"),
+      icon: nativeImage.createFromPath(path.join(__dirname, "../assets/icons/plantain-bananen.png")),
       frame: false,
       transparent: true,
       webPreferences: {
@@ -48,6 +48,7 @@ export default class Main {
         preload: path.join(__dirname, "./preload.js"),
       },
     });
+    const appIcon = new Tray(nativeImage.createFromPath(path.join(__dirname, "../assets/icons/plantain-bananen.png")));
     Main.mainWindow
       // .loadFile(path.join(__dirname, '../index.html'));
       .loadURL(`http://localhost:${Main.UIport}/main`);
