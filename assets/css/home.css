@@ -40,6 +40,14 @@
   background-color: color-mix(in hsl shorter hue, var(--window-border-color) 15%, var(--body-backgroundcolor) 85%);
   /* background-color: var(--window-border-color); */
 }
+.addercontent label,
+#Release label {
+  background-color: var(--body-backgroundcolor-2);
+  display: block;
+  border-radius: 25px;
+  text-align: center;
+  padding: 10px;
+}
 .tab button {
   float: right;
   border: none;

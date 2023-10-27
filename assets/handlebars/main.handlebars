@@ -24,7 +24,7 @@
               /></span>
           </div>
           <div id="window-title">
-            <span>Plantain 🍌</span>
+            <span>Plantain <img src="/assets/svg/plantain-bananen.svg" style="width: 1.2em;"></span>
           </div>
 
           <div id="window-controls">
@@ -114,15 +114,30 @@
           <div class="tab">
             <button
               class="tablinks"
+              onclick="switchToTab(event, 'Release')"
+              id="bumptabbttn"
+            >Release</button>
+            <button
+              class="tablinks"
               onclick="switchToTab(event, 'Readback')"
+              id="viewtabbttn"
             >View</button>
             <button
               class="tablinks"
               onclick="switchToTab(event, 'Add')"
               id="addtabbttn"
-            >Add</button>
+            >New entry</button>
           </div>
-
+        <div id="Release" class="tabcontent">
+          <p style="font-size: 0.7em;">Work in progress!</p>
+          <label for="relname">
+            <p>New version name:</p>
+            <input type="text" name="relname" id="rel-relname" style="width: 60VW; max-width: 60VW; min-width: 60VW;"></label>
+          
+          
+          <p><label for="submit">Ready? <input type="button" value="Log it!" onclick="bananenDubq()"
+                id="submit"></label></p>
+        </div>
           <div id="Readback" class="tabcontent">
             <div id="regenbttnspace"></div>
             <text><span id="ReadBackSpan"></span></text>
@@ -138,21 +153,29 @@
 </div>
 
 <div id="Addition" class="addercontent" style="display: block;">
-  <h3>Addition</h3>
-  <p>Log an addition to the changelog!</p>
+  <p style="font-size: 0.7em;">Log an addition to the changelog!</p>
+    <label for="msg"><p>Addition to log:</p><textarea name="msg" id="add-msg" style="width: 60VW; max-width: 60VW; min-width: 60VW; height: 20VH; min-height: 60px; max-height: 50VH"></textarea></label>
+    <p><label for="breaking">Breaking: <input type="checkbox" id="add-breaking" name="breaking"></label></p>
+    <p><label for="submit">Ready? <input type="button" value="Log it!" onclick="collectBananenQuery('add')" id="submit"></label></p>
 </div>
 <div id="Removal" class="addercontent">
-  <h3>Removal</h3>
-  <p></p>
+  <p style="font-size: 0.7em;">Log a removal to the changelog!</p>
+    <label for="msg"><p>Removal to log:</p><textarea name="msg" id="rem-msg" style="width: 60VW; max-width: 60VW; min-width: 60VW; height: 20VH; min-height: 60px; max-height: 50VH"></textarea></label>
+    <p><label for="breaking">Breaking: <input type="checkbox" id="rem-breaking" name="breaking"></label></p>
+    <p><label for="submit">Ready? <input type="button" value="Log it!" onclick="collectBananenQuery('rem')" id="submit"></label></p>
 </div>
 <div id="Update" class="addercontent">
-  <h3>Update</h3>
-  <p></p> 
+  <p style="font-size: 0.7em;">Log your update to the changelog!</p>
+    <label for="msg"><p>Update to log:</p><textarea name="msg" id="upd-msg" style="width: 60VW; max-width: 60VW; min-width: 60VW; height: 20VH; min-height: 60px; max-height: 50VH"></textarea></label>
+    <p><label for="breaking">Breaking: <input type="checkbox" id="upd-breaking" name="breaking"></label></p>
+    <p><label for="submit">Ready? <input type="button" value="Log it!" onclick="collectBananenQuery('upd')" id="submit"></label></p>
 </div>
 
 <div id="Fix" class="addercontent">
-  <h3>Fix</h3>
-  <p></p>
+  <p style="font-size: 0.7em;">Log what issues you solved.</p>
+    <label for="msg"><p>Fix to log:</p><textarea name="msg" id="fix-msg" style="width: 60VW; max-width: 60VW; min-width: 60VW; height: 20VH; min-height: 60px; max-height: 50VH"></textarea></label>
+    <p><label for="breaking">Breaking: <input type="checkbox" id="fix-breaking" name="breaking"></label></p>
+    <p><label for="submit">Ready? <input type="button" value="Log it!" onclick="collectBananenQuery('fix')" id="submit"></label></p>
 </div>
           </div>
 
@@ -161,8 +184,8 @@
       <script src="./assets/js/renderer.js"></script>
       <script defer>
         
-        { const evt = { currentTarget: (document.getElementById("addtabbttn")) }
-        switchToTab(evt, 'Add');}
+        { const evt = { currentTarget: (document.getElementById("viewtabbttn")) }
+        switchToTab(evt, 'Readback');}
       </script>
     </div>
   </body>

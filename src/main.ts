@@ -38,7 +38,7 @@ export default class Main {
       height: 550,
       minWidth: 400,
       minHeight: 550,
-      // icon: path.join(__dirname, "/assets/icons/app-512x512.png"),
+      icon: path.join(__dirname, "/assets/icons/plantain-bananen.png"),
       frame: false,
       transparent: true,
       webPreferences: {
@@ -145,9 +145,11 @@ export default class Main {
       });
     });
     ipcMain.handle("kivicall", (event, args) => {
+      // console.log("Handling:")
+      // console.log(args);
       switch (args[0]) {
         case "add":
-          kiviinstance.add(args[1], parseBool(args[2]), `${args[3]}`);
+          kiviinstance.add(args[1], parseBool(args[3]), `${args[2]}`);
           break;
         case "regen":
           logger.info(`Regenerating '${path.join(kiviinstance.info.cwd, BananenConfig().config.changelogfile)}'...`);
@@ -157,6 +159,10 @@ export default class Main {
           logger.info(`Initialising '${path.join(kiviinstance.info.cwd)}...`);
           kiviinstance.init();
           kiviinstance.regen();
+          break;
+        case "dub":
+          logger.info("Dubbing changes to version: '" + args[1] + "'");
+          kiviinstance.dub(args[1]);
           break;
         default:
           break;

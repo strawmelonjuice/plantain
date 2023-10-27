@@ -19,11 +19,12 @@ function CheckIfMaximized() {
 setInterval(() => {
   ipcRender.invoke("getcd").then((currentDir) => {
     // console.log("currentDir:" + currentDir)
-  const disp= document.getElementById("kivi-cwd-disp");
-  if (disp !== null) {
-    disp.value = currentDir;
-  }
-})}, 500);
+    const disp = document.getElementById("kivi-cwd-disp");
+    if (disp !== null) {
+      disp.value = currentDir;
+    }
+  })
+}, 500);
 function handleWindowControls() {
   document.getElementById("min-button").addEventListener("click", (event) => {
     window.ipcRender.send("window:minify");
@@ -91,11 +92,11 @@ function ScaleNow() {
 }
 function getTitleBarHeight() {
   document
-		.querySelector(":root")
-		.style.setProperty(
-			"--titlebarHeight",
-			document.getElementById("titlebar").offsetHeight + "px"
-		);
+    .querySelector(":root")
+    .style.setProperty(
+      "--titlebarHeight",
+      document.getElementById("titlebar").offsetHeight + "px"
+    );
 }
 getTitleBarHeight();
 menubutton = document.getElementById("menubuttonlogo");
@@ -105,29 +106,29 @@ document
     if (menubutton.dataset.menustatus === "closed") {
       document.getElementById("navigation").style.display = "";
       document.getElementById("content-body").style.top =
-			"calc(var(--titlebarHeight) + .5px + 25px)";
+        "calc(var(--titlebarHeight) + .5px + 25px)";
       document.getElementById("content-body").style.height =
-			"calc(100vh - (var(--titlebarHeight) + .5px + 75px))";
+        "calc(100vh - (var(--titlebarHeight) + .5px + 75px))";
       menubutton.src = "./assets/svg/menu-close.svg";
       menubutton.dataset.menustatus = "opened";
     } else {
       closeMenu();
     }
   });
-  function closeMenu() {
-    setTimeout(() => {
-      document.getElementById("navigation").style.display = "none";
-      document.getElementById("content-body").style.top = "";
-      document.getElementById("content-body").style.height = ""; menubutton.src =
+function closeMenu() {
+  setTimeout(() => {
+    document.getElementById("navigation").style.display = "none";
+    document.getElementById("content-body").style.top = "";
+    document.getElementById("content-body").style.height = ""; menubutton.src =
       "./assets/svg/menu-open.svg";
-      menubutton.dataset.menustatus = "closed";
-    }, 50);
-  }
-  closeMenu()
-  document.getElementById("navigation").setAttribute("onclick","closeMenu()");
-  function showCredits() {
-    window.open("/creds",'creditsWindow',
-                                   `toolbar=no,
+    menubutton.dataset.menustatus = "closed";
+  }, 50);
+}
+closeMenu()
+document.getElementById("navigation").setAttribute("onclick", "closeMenu()");
+function showCredits() {
+  window.open("/creds", 'creditsWindow',
+    `toolbar=no,
                                     location=no,
                                     status=no,
                                     menubar=no,
@@ -136,15 +137,15 @@ document
                                     resizable=yes,
                                     width=300,
                                     height=300`);
-  };
+};
 
-  function showE (ElementId) {
-    document.getElementById(ElementId).style.display = "block";
-  };
-  function restoreED (ElementId) {
-    document.getElementById(ElementId).style.display = "";
-  };
-  function switchToTab(evt, tab) {
+function showE(ElementId) {
+  document.getElementById(ElementId).style.display = "block";
+};
+function restoreED(ElementId) {
+  document.getElementById(ElementId).style.display = "";
+};
+function switchToTab(evt, tab) {
   let i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -160,22 +161,25 @@ document
 if (document.getElementById("ReadBackSpan") !== null) {
   setInterval(() => {
     ipcRender.invoke("getcd").then((currentDir) => {
-    ipcRender.invoke("getbananenconfig").then((conf) => {
-      if (conf ==undefined) {
-        document.getElementById(
-          "ReadBackSpan"
-        ).innerHTML = `<button class="regen-init-button" onclick="window.ipcRender.invoke('kivicall', ['init'])">Initialise</button>This directory does not have a BananenConfig (yet)\n Initialise it to view a clean Bananen changelog here!`;
-      } else {
-      ipcRender
-        .invoke("getmd", [currentDir + "/" + conf.config.changelogfile, false])
-        .then((markdownasHTML) => {
-          const buttons = `
+      ipcRender.invoke("getbananenconfig").then((conf) => {
+        if (conf == undefined) {
+          document.getElementById(
+            "ReadBackSpan"
+          ).innerHTML = `<button class="regen-init-button" onclick="window.ipcRender.invoke('kivicall', ['init'])">Initialise</button>This directory does not have a BananenConfig (yet)\n Initialise it to view a clean Bananen changelog here!`;
+        } else {
+          ipcRender
+            .invoke("getmd", [currentDir + "/" + conf.config.changelogfile, false])
+            .then((markdownasHTML) => {
+              const buttons = `
           <button class="regen-init-button" onclick="window.ipcRender.invoke('kivicall', ['regen'])">Regenerate</button>`;
-          if (markdownasHTML == undefined) {} else {
-          document.getElementById("ReadBackSpan").innerHTML = buttons+markdownasHTML;
-        }});}
-      })})
-      }, 800);
+              if (markdownasHTML == undefined) { } else {
+                document.getElementById("ReadBackSpan").innerHTML = buttons + markdownasHTML;
+              }
+            });
+        }
+      })
+    })
+  }, 800);
 }
 
 function changeTypeForms(evt, additionType) {
@@ -193,4 +197,28 @@ function changeTypeForms(evt, additionType) {
   }
   document.getElementById(additionType).style.display = "block";
   evt.currentTarget.className += " active";
+}
+
+
+function collectBananenQuery(type) {
+  let msg = document.getElementById(type + "-msg").value;
+  let breaking = document.getElementById(type + "-breaking").checked;
+  if (msg == "") { window.alert("Changelog addition cannot be empty.") } else {
+  let typen;
+  switch (type) {
+    case "add": typen = 1; break;
+    case "upd": typen = 2; break;
+    case "fix": typen = 3; break;
+    case "rem": typen = 4; break;
+  }
+  window.ipcRender.invoke('kivicall', ["add", typen, msg, breaking]);
+  window.location.reload(false);
+  }
+}
+function bananenDubq() {
+  let vername = document.getElementById("rel-relname").value;
+  if (vername == "") { window.alert("Release name cannot be empty.") } else {
+    window.ipcRender.invoke('kivicall', ["dub", vername]);
+    window.location.reload(false);
+  }
 }

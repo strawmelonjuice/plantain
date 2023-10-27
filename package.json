@@ -1,12 +1,13 @@
 {
   "name": "plantain",
+  "productName": "Plantain: Bananen GUI",
   "description": "A graphical user interface around Bananen, built on Kivi",
   "version": "0.2.1",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron dist/plantain.js",
     "build": "npx tsc",
-    "devj": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js,json,css,html,handlebars\"",
+    "devj": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js,css,html,handlebars\"",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon --exec electron dist/plantain.js -e js\""
   },
   "author": "Strawmelonjuice Mar",

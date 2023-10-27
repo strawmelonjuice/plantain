@@ -8,7 +8,6 @@
 	--ui-font-family: "Pixelify Sans", "Ubuntu", sans-serif;
 	--text-font-family: "Ubuntu", sans-serif;
 	font-size: 14px;
-
 	--general-border-radius-px: 9px;
 	--window-border-radius-px: 15px;
 	--theme-color: #ffcc00;
@@ -18,6 +17,7 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--body-backgroundcolor: #445d5e;
+		--body-backgroundcolor-2: rgb(54, 52, 52);
 		--main-textcolor: #ddffd7;
 		--title-bar-color: #252423;
 		--button-bg-color-1: #a36748;
@@ -32,6 +32,7 @@
 @media (prefers-color-scheme: light) {
 	:root {
 		--body-backgroundcolor: #c5dfd9;
+		--body-backgroundcolor-2: rgb(211, 190, 190);
 		--main-textcolor: #303a2e;
 		--title-bar-color: purple;
 		--button-bg-color-1: #f8bea1;

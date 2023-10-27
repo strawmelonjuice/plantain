@@ -2,7 +2,7 @@ import fs from "fs";
 import handlebars from "handlebars";
 import path from "path";
 export default function HTML(css: string) {
-	let vars = {
+	const vars = {
 		css: css,
 	}
 	return handlebars.compile(
