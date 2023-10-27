@@ -2,3 +2,6 @@
 * text=auto
 # CSS is no code guys cmon
 *.css -linguist-detectable
+# HTML isn't either
+*.html -linguist-detectable
+*.handlebars -linguist-detectable
