@@ -102,7 +102,7 @@ export default class Main {
       let filepath = path.join(__dirname, "/../", args[0]);
       if (parseBool(args[1]) === false) filepath = path.normalize(args[0]);
       if (!fs.existsSync(filepath)) return "...";
-      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars).replace("https://","/webopen?uri=https://");
+      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars).replaceAll("\"https:","\"/webopen?uri=https:");
     });
     ipcMain.on("window:maxify", () => {
       Main.mainWindow.maximize();
