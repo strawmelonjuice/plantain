@@ -1,22 +1,30 @@
-import { app, BrowserWindow, ipcMain, shell, dialog, Tray, nativeImage } from "electron";
-import path from 'path';
-import { KiviBananen } from 'kivi-bananen';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  shell,
+  dialog,
+  // Tray,
+  nativeImage,
+} from "electron";
+import path from "path";
+import { KiviBananen } from "kivi-bananen";
 import { Logger, ILogObj } from "tslog";
-import os from 'os';
+import os from "os";
 // import parse as parseJsonC } from "comment-json";
 // Not neccessary and tbh those objects are pretty annoying
-const parseJsonC = JSON.parse
+const parseJsonC = JSON.parse;
 import fs from "fs";
 import handlebars from "handlebars";
 import MarkdownIt from "markdown-it";
 const md = new MarkdownIt({
   html: true,
   linkify: true,
-  typographer: true
+  typographer: true,
 });
 function parseBool(bool: string | boolean | number) {
-  if (bool === "true" || bool === "1" || bool === true) return true
-  else return false
+  if (bool === "true" || bool === "1" || bool === true) return true;
+  else return false;
 }
 export default class Main {
   static mainWindow: Electron.BrowserWindow;
@@ -24,7 +32,7 @@ export default class Main {
   static BrowserWindow: Electron.BrowserWindow;
   static UIport: number;
   private static onWindowAllClosed() {
-    if (process.platform !== 'darwin') {
+    if (process.platform !== "darwin") {
       Main.application.quit();
     }
   }
@@ -38,7 +46,9 @@ export default class Main {
       height: 550,
       minWidth: 400,
       minHeight: 550,
-      icon: nativeImage.createFromPath(path.join(__dirname, "../assets/icons/plantain-bananen.png")),
+      icon: nativeImage.createFromPath(
+        path.join(__dirname, "../assets/icons/plantain-bananen.png")
+      ),
       frame: false,
       transparent: true,
       webPreferences: {
@@ -48,26 +58,33 @@ export default class Main {
         preload: path.join(__dirname, "./preload.js"),
       },
     });
-    const appIcon = new Tray(nativeImage.createFromPath(path.join(__dirname, "../assets/icons/plantain-bananen.png")));
+    // const appIcon = new Tray(
+    //   nativeImage.createFromPath(
+    //     path.join(__dirname, "../assets/icons/plantain-bananen.png")
+    //   )
+    // );
     Main.mainWindow
       // .loadFile(path.join(__dirname, '../index.html'));
       .loadURL(`http://localhost:${Main.UIport}/main`);
   }
 
-  static main(app: Electron.App, browserWindow: any, kivi: typeof KiviBananen, logger: Logger<ILogObj>, port: number | null) {
+  static main(
+    app: Electron.App,
+    browserWindow: any,
+    kivi: typeof KiviBananen,
+    logger: Logger<ILogObj>,
+    port: number | null
+  ) {
     let kiviinstance: KiviBananen;
-    logger.info("Starting Kivi instance!")
+    logger.info("Starting Kivi instance!");
     kiviinstance = new kivi(process.cwd());
 
     Main.BrowserWindow = browserWindow;
     Main.application = app;
-    if (port !== null)
-      Main.UIport = port;
-    else
-      Main.UIport = 3000;
-    Main.application.on('window-all-closed', Main.onWindowAllClosed);
-    Main.application.on('ready', Main.onReady);
-
+    if (port !== null) Main.UIport = port;
+    else Main.UIport = 3000;
+    Main.application.on("ready", Main.onReady);
+    Main.application.on("window-all-closed", Main.onWindowAllClosed);
 
     ipcMain.handle("getmaximizedbool", () => {
       return Main.mainWindow.isMaximized();
@@ -76,9 +93,16 @@ export default class Main {
       return kiviinstance.info.cwd;
     });
     function BananenConfig() {
-      if (!fs.existsSync(path.join(kiviinstance.info.cwd, "/bananen.json"))) return undefined;
-      return parseJsonC(fs.readFileSync(path.join(kiviinstance.info.cwd, "/bananen.json"), { encoding: "utf8", flag: "r" }
-      ).toString());
+      if (!fs.existsSync(path.join(kiviinstance.info.cwd, "/bananen.json")))
+        return undefined;
+      return parseJsonC(
+        fs
+          .readFileSync(path.join(kiviinstance.info.cwd, "/bananen.json"), {
+            encoding: "utf8",
+            flag: "r",
+          })
+          .toString()
+      );
     }
     ipcMain.handle("getbananenconfig", () => {
       return BananenConfig();
@@ -90,23 +114,33 @@ export default class Main {
       shell.openExternal(url);
     });
     ipcMain.handle("getmd", (event, args) => {
-      const pkgjso = parseJsonC(fs.readFileSync(path.join(__dirname, "/../package.json"), { encoding: "utf8", flag: "r" }
-      ).toString());
+      const pkgjso = parseJsonC(
+        fs
+          .readFileSync(path.join(__dirname, "/../package.json"), {
+            encoding: "utf8",
+            flag: "r",
+          })
+          .toString()
+      );
       const vars = {
         plantain: {
-          version: pkgjso.version
+          version: pkgjso.version,
         },
         kivi: {
-          version: kiviinstance.info.versions.kivi
+          version: kiviinstance.info.versions.kivi,
         },
         bananen: {
-          version: kiviinstance.info.versions.bananen
-        }
-      }
+          version: kiviinstance.info.versions.bananen,
+        },
+      };
       let filepath = path.join(__dirname, "/../", args[0]);
       if (parseBool(args[1]) === false) filepath = path.normalize(args[0]);
       if (!fs.existsSync(filepath)) return "...";
-      return (handlebars.compile(md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))))(vars).replaceAll("\"https:","\"/webopen?uri=https:");
+      return handlebars
+        .compile(
+          md.render(fs.readFileSync(filepath, { encoding: "utf8", flag: "r" }))
+        )(vars)
+        .replaceAll('"https:', '"/webopen?uri=https:');
     });
     ipcMain.on("window:maxify", () => {
       Main.mainWindow.maximize();
@@ -125,14 +159,16 @@ export default class Main {
       shell.openPath(path.join(__dirname, "../LICENSE.TXT"));
     });
     ipcMain.on("plantain:cd", async () => {
-      dialog.showOpenDialog({ properties: ['openFile', 'openDirectory'] }).then((picked) => {
-        console.trace(picked)
-        if (picked.canceled == false) {
-          const folder: string = picked.filePaths[0];
-          kiviinstance.chdir(path.join(folder));
-          console.log(folder);
-        };
-      })
+      dialog
+        .showOpenDialog({ properties: ["openFile", "openDirectory"] })
+        .then((picked) => {
+          console.trace(picked);
+          if (picked.canceled == false) {
+            const folder: string = picked.filePaths[0];
+            kiviinstance.chdir(path.join(folder));
+            console.log(folder);
+          }
+        });
     });
 
     ipcMain.on("plantain:forcerestart", async () => {
@@ -142,7 +178,7 @@ export default class Main {
           require("child_process").spawn(process.argv.shift(), process.argv, {
             cwd: process.cwd(),
             detached: true,
-            stdio: "inherit"
+            stdio: "inherit",
           });
         });
         process.exit();
@@ -156,7 +192,12 @@ export default class Main {
           kiviinstance.add(args[1], parseBool(args[3]), `${args[2]}`);
           break;
         case "regen":
-          logger.info(`Regenerating '${path.join(kiviinstance.info.cwd, BananenConfig().config.changelogfile)}'...`);
+          logger.info(
+            `Regenerating '${path.join(
+              kiviinstance.info.cwd,
+              BananenConfig().config.changelogfile
+            )}'...`
+          );
           if (kiviinstance.regen().startsWith("0")) console.log("OK.");
           break;
         case "init":
