@@ -28,7 +28,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "handlebars": "^4.7.8",
-    "kivi-bananen": "^2.0.1-alpha",
+    "kivi-bananen": "^2.1.0-alpha",
     "markdown-it": "^13.0.2",
     "tslog": "^4.9.2"
   }
