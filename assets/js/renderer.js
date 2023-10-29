@@ -201,7 +201,7 @@ function changeTypeForms(evt, additionType) {
 
 
 function collectBananenQuery(type) {
-  let msg = document.getElementById(type + "-msg").value;
+  let msg = document.getElementById(type + "-msg").value.replaceAll('`', '\`');
   let breaking = document.getElementById(type + "-breaking").checked;
   if (msg == "") { window.alert("Changelog addition cannot be empty.") } else {
   let typen;
@@ -219,7 +219,7 @@ function collectBananenQuery(type) {
 
 
 function bananenDubq() {
-  let vername = document.getElementById("rel-relname").value;
+  let vername = document.getElementById("rel-relname").value.replaceAll('`', '\`');
   if (vername == "") { window.alert("Release name cannot be empty.") } else {
     window.ipcRender.invoke('kivicall', ["dub", vername]);
     window.location.reload(false);

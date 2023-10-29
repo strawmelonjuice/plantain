@@ -4,7 +4,8 @@
 
 ## Unreleased changes
             
-No unreleased changes.
+-  **<span style="color: #9900cc">Fix</span>**: Fixed `code blocks` being ignored by Plantain
+
 
 ## Releases
 

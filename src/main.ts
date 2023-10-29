@@ -189,7 +189,7 @@ export default class Main {
       // console.log(args);
       switch (args[0]) {
         case "add":
-          kiviinstance.add(args[1], parseBool(args[3]), `${args[2]}`);
+          kiviinstance.add(args[1], parseBool(args[3]), `${args[2].replaceAll('`', '\\`')}`);
           break;
         case "regen":
           logger.info(

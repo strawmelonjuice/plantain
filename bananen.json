@@ -31,7 +31,13 @@
     }
   },
   "saved_changes": {
-    "unreleased": [],
+    "unreleased": [
+      {
+        "contents": "Fixed `code blocks` being ignored by Plantain",
+        "type": 3,
+        "breaking": false
+      }
+    ],
     "released": [
       {
         "name": "v0.2.1",
